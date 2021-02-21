@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './services/user.service';
+import { User } from './_models/User';
+import { AccountService } from './_services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +11,15 @@ export class AppComponent implements OnInit{
   title = 'client';
   users:any=[];
 
-  constructor(private userService: UserService) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-  this.userService.getusers().subscribe(result =>{
-    console.log(result);
-    this.users = result;
-  })
 
+  this.setCurrentUser();
+  }
 
+   setCurrentUser(){
+    const user:User = JSON.parse(localStorage.getItem('user'));
+    this.accountService.setCurrentUser(user);
   }
 }
